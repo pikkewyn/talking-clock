@@ -3,15 +3,18 @@
 program="talking-clock"
 player="aplay"
 
-freq=15
+freq=0
 main_dir="/usr/share"
 
 print_help()
 {
     cat <<-EOF
-talkingclock -f [n]
-n: every 5 or 15 or 30 min
-If no frequency specified clock will play only at full hour.
+talking-clock:
+-f [n]
+    n: 5, 15, 30 ( min frequency )
+    If no frequency specified clock will play only at full hour.
+-s
+    stops clock
 EOF
 
     exit 1
