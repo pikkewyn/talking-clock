@@ -1,0 +1,20 @@
+# Maintainer: pikkewyn <studies.tutor@gmail.com>
+
+pkgname=talking-clock
+pkgver=2.0
+pkgrel=1
+pkgdesc="simple app informing in almost human voice about current time"
+url="http://pikkewyn.pl"
+license=('GPL')
+depends=('alsa-utils')
+arch=('any')
+source=("http://pikkewyn.pl/${pkgname}.tar.gz")
+md5sums=('e498c9b9062f64b6fc6942886415a26d')
+install=${pkgname}.install
+
+package() {
+    cd "${srcdir}"
+    install -D ${srcdir}/${pkgname}/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    mkdir -p ${pkgdir}/usr/share/${pkgname}
+    install -D -m 444 ${srcdir}/${pkgname}/sound/*.wav ${pkgdir}/usr/share/${pkgname}
+}
