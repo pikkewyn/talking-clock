@@ -22,12 +22,12 @@ EOF
 
 stop_clock()
 {
-    pid=$(pidof -x -o $$ ${0##*/})
+    pid=$(pidof -x -o $$ "${0##*/}")
 
     if [ -n "$pid" ]
     then
-        kill $pid
-        echo "stopping $progarm"
+        kill "$pid"
+        echo "stopping ${BASH_ARGV[0]}"
     fi
 }
 
@@ -38,48 +38,48 @@ clock()
         minute=$(date +%M)
         hour=$(date +%l | tr -d ' ')
 
-        if [ $minute -eq 00 ];then
+        if [[ $minute -eq 00 ]];then
             $player -q "$main_dir/$program/bang.wav"
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/0.wav"
             $player -q "$main_dir/$program/0.wav"
-        elif [ $minute -eq 10 -a $freq -eq 5 ]; then
+        elif [[ $minute -eq 10 && $freq -eq 5 ]]; then
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/10.wav"
-        elif [ $minute -eq 15 ] && [ $freq -eq 15 -o $freq -eq 5 ]; then
+        elif [[ $minute -eq 15  && ( $freq -eq 15 || $freq -eq 5 ) ]]; then
             $player -q "$main_dir/$program/quarter.wav"
             $player -q "$main_dir/$program/past.wav"
             $player -q "$main_dir/$program/$hour.wav"
-        elif [ $minute -eq 20 -a $freq -eq 5 ]; then
+        elif [[ $minute -eq 20 && $freq -eq 5 ]]; then
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/20.wav"
-        elif [ $minute -eq 25 -a $freq -eq 5 ]; then
+        elif [[ $minute -eq 25 && $freq -eq 5 ]]; then
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/20.wav"
             $player -q "$main_dir/$program/5.wav"
-        elif [ $minute -eq 30 ] && [ $freq -eq 30 -o $freq -eq 15 -o $freq -eq 5 ]; then
+        elif [[ $minute -eq 30 && ( $freq -eq 30 || $freq -eq 15 || $freq -eq 5 ) ]]; then
             $player -q "$main_dir/$program/bang.wav"
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/30.wav"
-        elif [ $minute -eq 35 -a $freq -eq 5 ]; then
+        elif [[ $minute -eq 35 && $freq -eq 5 ]]; then
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/30.wav"
             $player -q "$main_dir/$program/5.wav"
-        elif [ $minute -eq 40 ] && [ $freq -eq 5 ]; then
+        elif [[ $minute -eq 40 && $freq -eq 5 ]]; then
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/40.wav"
-        elif [ $minute -eq 45 ] && [ $freq -eq 15 -o $freq -eq 5 ]; then
+        elif [[ $minute -eq 45  &&  ( $freq -eq 15  ||  $freq -eq 5 ) ]]; then
             $player -q "$main_dir/$program/quarter.wav"
             $player -q "$main_dir/$program/to.wav"
-            if [ $hour -eq 12 ];then
+            if [[ $hour -eq 12 ]];then
                 $player -q "$main_dir/$program/1.wav"
             else
                 $player -q "$main_dir/$program/$((hour + 1)).wav"
             fi
-        elif [ $minute -eq 50 -a $freq -eq 5 ]; then
+        elif [[ $minute -eq 50  &&  $freq -eq 5 ]]; then
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/50.wav"
-        elif [ $minute -eq 55 -a $freq -eq 5 ]; then
+        elif [[ $minute -eq 55 &&  $freq -eq 5 ]]; then
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/50.wav"
             $player -q "$main_dir/$program/5.wav"
@@ -88,7 +88,7 @@ clock()
     done | logger
 }
 
-if [ $(which $player &> /dev/null) ];then
+if [ "$(which $player &> /dev/null)" ];then
     echo "$player is necessary to play clock sound"
     exit 1
 fi
