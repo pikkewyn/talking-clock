@@ -1,5 +1,19 @@
 #!/bin/bash
 
+#Copyright (C) 2014  Jan <pikkewyn>
+#
+#This program is free software; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software Foundation,
+#Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+
 program="talking-clock"
 player="aplay"
 
@@ -11,8 +25,8 @@ print_help()
     cat <<-EOF
 talking-clock:
 -f [n]
-    n: 5, 15, 30 ( min frequency )
-    If no frequency specified clock will play only at full hour.
+    n: 5, 15, 30 ( frequency in minutes )
+    If no flag specified clock will play only at full hour.
 -s
     stops clock
 EOF
@@ -22,17 +36,21 @@ EOF
 
 stop_clock()
 {
-    pid=$(pidof -x -o $$ "${0##*/}")
+    name="${0##*/}"
+    pid=$(pidof -x -o "$$" $name )
 
     if [ -n "$pid" ]
     then
-        kill "$pid"
-        echo "stopping ${BASH_ARGV[0]}"
+        kill $pid
+        echo "stopping $name"
     fi
 }
 
 clock()
 {
+    delay=$((59 -  $(date +%s) % 60 ));
+    sleep $delay
+
     while :
     do
         minute=$(date +%M)
@@ -97,9 +115,9 @@ fi
 
 [[ "$1" == "-s" ]] && stop_clock
 
-if [ "$1" == "-f" ];
+if [[ "$1" == "-f" && $# -eq 2 ]];
 then
-    ( ($2 != 5) && ($2 != 15) && ($2 != 30) ) && print_help
+    [[ $2 != 5 && $2 != 15 && $2 != 30 ]] && print_help
     freq=$2
 else
     [[ $1 != "" ]] && print_help
