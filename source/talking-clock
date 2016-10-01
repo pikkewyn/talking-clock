@@ -6,6 +6,9 @@ player="aplay"
 freq=0
 main_dir="/usr/share"
 
+bang="bang.wav"
+# bang="cuckoo.wav" // cuckoo
+
 print_help()
 {
     cat <<-EOF
@@ -39,7 +42,7 @@ clock()
         hour=$(date +%l | tr -d ' ')
 
         if [[ $minute -eq 00 ]];then
-            $player -q "$main_dir/$program/bang.wav"
+            $player -q "$main_dir/$program/$bang"
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/0.wav"
             $player -q "$main_dir/$program/0.wav"
@@ -58,7 +61,7 @@ clock()
             $player -q "$main_dir/$program/20.wav"
             $player -q "$main_dir/$program/5.wav"
         elif [[ $minute -eq 30 && ( $freq -eq 30 || $freq -eq 15 || $freq -eq 5 ) ]]; then
-            $player -q "$main_dir/$program/bang.wav"
+            $player -q "$main_dir/$program/$bang"
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/30.wav"
         elif [[ $minute -eq 35 && $freq -eq 5 ]]; then
