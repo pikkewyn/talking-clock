@@ -48,13 +48,14 @@ stop_clock()
 
 clock()
 {
-    delay=$((59 -  $(date +%s) % 60 ));
+    delay=$((60 -  $(date +%s) % 60 ));
     sleep $delay
 
     while :
     do
-        minute=$(date +%M)
-        hour=$(date +%l | tr -d ' ')
+        timestamp=($(date "+%l %M"))
+        hour=${timestamp[0]#0}
+        minute=${timestamp[1]#0}
 
         if [[ $minute -eq 00 ]];then
             $player -q "$main_dir/$program/bang.wav"
