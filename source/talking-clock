@@ -7,7 +7,8 @@ freq=0
 main_dir="/usr/share"
 
 bang="bang.wav"
-# bang="cuckoo.wav" // cuckoo
+# bang="cuckoo.wav"
+# bang="kremlin_clock.wav"
 
 print_help()
 {
