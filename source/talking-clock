@@ -14,6 +14,7 @@
 #along with this program; if not, write to the Free Software Foundation,
 #Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
+debug=false
 program="talking-clock"
 player="aplay"
 
@@ -48,16 +49,20 @@ stop_clock()
 
 clock()
 {
-    delay=$((60 -  $(date +%s) % 60 ));
-    sleep $delay
-
     while :
     do
-        timestamp=($(date "+%l %M"))
+        delay=$((60 -  $(date +%s) % 60));
+        sleep $delay
+
+        timestamp=($(date "+%l %M %S"))
         hour=${timestamp[0]#0}
         minute=${timestamp[1]#0}
 
-        if [[ $minute -eq 00 ]];then
+        if [[ $debug == true ]]; then
+            echo "$hour:$minute:${timestamp[2]}" >&2
+        fi
+
+        if [[ $minute -eq 0 ]];then
             $player -q "$main_dir/$program/bang.wav"
             $player -q "$main_dir/$program/$hour.wav"
             $player -q "$main_dir/$program/0.wav"
@@ -103,8 +108,7 @@ clock()
             $player -q "$main_dir/$program/50.wav"
             $player -q "$main_dir/$program/5.wav"
         fi
-        sleep 60
-    done | logger
+    done
 }
 
 if [ "$(which $player &> /dev/null)" ];then
