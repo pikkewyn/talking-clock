@@ -1,0 +1,5 @@
+Package: talking-clock
+Description: Bash script for homan voice time annoucment
+Maintainer: jan <studies.tutor@gmail.com>
+Version: 2.0-2
+Architecture: all
