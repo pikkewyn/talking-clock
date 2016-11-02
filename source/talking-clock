@@ -14,9 +14,10 @@
 #along with this program; if not, write to the Free Software Foundation,
 #Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 
-debug=false
-program="talking-clock"
-player="aplay"
+readonly debug=false
+readonly program="talking-clock"
+readonly player="aplay"
+readonly config="$HOME/.config/talking-clock.conf"
 
 freq=0
 main_dir="/usr/share"
@@ -111,6 +112,28 @@ clock()
     done
 }
 
+config()
+{
+    if [[ ! -f $config ]]
+    then
+        read -p "Add talking-clock to .xprofile (y/n)? " answer
+        case ${answer:0:1} in
+        y|Y )
+            echo "/usr/bin/talking-clock" >> "$HOME/.xprofile"
+            echo "xprofile: yes" > $config       
+         ;;
+        * )
+            echo "xprofile: no" > $config
+        ;;
+        esac
+    else
+        if [[ $(grep -q 'xprofile: yes' $config) -eq 0 ]]
+        then
+            sed -i "s/\(talking-clock\)/\1 -$freq/" ~/.xprofile
+        fi
+    fi
+}
+
 if [ "$(which $player &> /dev/null)" ];then
     echo "$player is necessary to play clock sound"
     exit 1
@@ -122,11 +145,13 @@ fi
 
 if [[ "$1" == "-f" && $# -eq 2 ]];
 then
-    [[ $2 != 5 && $2 != 15 && $2 != 30 ]] && print_help
+    [[ $2 != 0 && $2 != 5 && $2 != 15 && $2 != 30 ]] && print_help
     freq=$2
 else
     [[ $1 != "" ]] && print_help
 fi
+
+config
 
 stop_clock
 echo "starting $program"

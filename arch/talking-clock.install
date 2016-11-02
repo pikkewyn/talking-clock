@@ -4,5 +4,6 @@ post_install() {
 
 post_remove() {
     rm -rf /usr/share/talking-clock
+    rm -f /usr/bin/talking-clock
 }
 

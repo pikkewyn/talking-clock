@@ -8,4 +8,6 @@ talking-clock:
 -s
     stops clock
 ```
-TODO: consider replacing aplay with play from sox package for volume control option
+
+**Project website:** talking-clock.com
+TODO: consider replacing *aplay* with *play* from *sox* package for volume control option.

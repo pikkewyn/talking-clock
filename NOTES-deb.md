@@ -1,3 +1,4 @@
+![deb dir tree](./dir-tree-deb.png  "deb dir tree")
 
 build deb package:
 ```bash
