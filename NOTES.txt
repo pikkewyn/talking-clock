@@ -1,0 +1,9 @@
+1. Input: text and in how many minutes it shoud be displayed ( max 12 hours )
+2. Save it to config file
+3. grep config file for current timestamp, we need line number and text to display
+   readarray foo < <(echo "$output" | grep "string1|string2")
+   read -d"\n" foo1 foo2  <(curl https://domain.com/file.xml | grep -E "string1|string2")
+   delete that line number
+4. Display notification in continous loop
+5. Add flag for sending signal
+6. When signal received set variable to stop loop
