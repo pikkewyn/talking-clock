@@ -12,4 +12,7 @@ talking-clock:
 **Project website:** 
 [https://talking-clock.com](https://talking-clock.com)
 
-TODO: consider replacing *aplay* with *play* from *sox* package for volume control option.
+TODO:
+- consider replacing *aplay* with *play* from *sox* package for volume control option.
+- fix config file issue 
+- update grep usage with if
